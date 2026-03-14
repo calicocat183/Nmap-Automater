@@ -1,0 +1,201 @@
+title Nmap automater -by calico
+for /f %%A in ('"prompt $H &echo on &for %%B in (1) do rem"') do set "BS=%%A"
+@echo off
+chcp 65001 >null
+color c
+cls
+::runs right after the personalization (can be changed)::
+:start
+call :banner
+call :choices
+pause
+::just the usuall banner::
+:banner
+Echo.
+Echo.
+Echo ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⢀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+echo ⠀⠀⠀⠀⠀⠀⠀⢀⣤⣴⣶⠟⠃⠉⠀⠀⠀⠈⠙⢶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀
+echo ⠀⠀⠀⠀⢀⢤⣺⣿⣿⣿⠇⠀⠀⠀⠀⠀⢀⣠⣤⣬⣿⣿⣷⣄⣂⠀⠀⠀⠀⠀
+echo ⠀⠀⢖⢼⡺⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠈⠹⠿⠿⣿⣿⣿⣿⣚⠸⣣⠆⠀⠀
+echo ⠀⠀⠀⠀⠑⠨⢟⣿⣿⣿⣆⠠⡀⠀⠀⠀⠀⠀⠀⢠⣿⣿⠿⠣⠙⠁⠁⠀⠀⠀
+echo⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠻⠦⣈⡱⡲⢖⣌⠅⠴⠟⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀
+Echo.
+Echo.
+::scan types for Nmap::
+:choices
+Echo.
+Echo.
+Echo            1. Intense scan
+Echo                 2. intense scan + udp
+Echo                      3. Intense scan, all tcp ports
+Echo                          4. intense scan, no ping
+Echo                             5. ping scan
+Echo                                 6. quick scan 
+Echo                                     7. quick scan+
+Echo                                        8. quick traceroute
+Echo                                           9. regular scan 
+Echo                                              10. slow comprehensive scan
+Echo                                                   11. close
+Echo.
+
+::how the choices get counted::
+
+set /p input= ^>^> 
+if /i %input% EQU 1 goto 1
+if /i %input% EQU 2 goto 2
+if /i %input% EQU 3 goto 3
+if /i %input% EQU 4 goto 4
+if /i %input% EQU 5 goto 5
+if /i %input% EQU 6 goto 6
+if /i %input% EQU 7 goto 7
+if /i %input% EQU 8 goto 8
+if /i %input% EQU 9 goto 9
+if /i %input% EQU 10 goto 10
+if /i %input% EQU 11 exit
+
+::then there is the scanners::
+
+:1
+cls
+set /p ip="enter router ip"
+set /p distance="enter how many ips to scan (0-255)"
+<nul set /p "=loading..."
+for /l %%i in (1,1,10) do (ping -n 2 127.0.0.1>nul & <nul set /p ="%BS% %BS%")
+echo.
+cls
+echo you can hit enter to see how much longer it will take
+nmap -T4 -A -v %ip%/%distance%
+pause
+cls
+call :start
+
+
+:2
+cls
+set /p ip="enter router ip"
+set /p distance="enter how many ips to scan (0-255)"
+<nul set /p "=loading..."
+for /l %%i in (1,1,10) do (ping -n 2 127.0.0.1>nul & <nul set /p ="%BS% %BS%")
+echo.
+cls
+echo you can hit enter to see how much longer it will take
+nmap -sS -sU -T4 -A -v %ip%/%distance%
+pause
+cls
+call :start
+
+:3
+cls
+set /p ip="enter router ip"
+set /p distance="enter how many ips to scan (0-255)"
+<nul set /p "=loading..."
+for /l %%i in (1,1,10) do (ping -n 2 127.0.0.1>nul & <nul set /p ="%BS% %BS%")
+echo.
+cls
+echo you can hit enter to see how much longer it will take
+nmap -p 1-65535 -T4 -A -v %ip%/%distance%
+pause
+cls
+call :start
+
+:4
+cls
+cls
+set /p ip="enter router ip"
+set /p distance="enter how many ips to scan (0-255)"
+<nul set /p "=loading..."
+for /l %%i in (1,1,10) do (ping -n 2 127.0.0.1>nul & <nul set /p ="%BS% %BS%")
+echo.
+cls
+cls
+call :start
+echo you can hit enter to see how much longer it will take
+nmap -T4 -A -v -Pn %ip%/%distance%
+pause
+
+:5
+cls
+cls
+call :start
+set /p ip="enter router ip"
+set /p distance="enter how many ips to scan (0-255)"
+<nul set /p "=loading..."
+for /l %%i in (1,1,10) do (ping -n 2 127.0.0.1>nul & <nul set /p ="%BS% %BS%")
+echo.
+cls
+echo you can hit enter to see how much longer it will take
+nmap -sn %ip%/%distance%
+pause
+cls
+call :start
+
+:6
+cls
+set /p ip="enter router ip"
+set /p distance="enter how many ips to scan (0-255)"
+<nul set /p "=loading..."
+for /l %%i in (1,1,10) do (ping -n 2 127.0.0.1>nul & <nul set /p ="%BS% %BS%")
+echo.
+cls
+echo you can hit enter to see how much longer it will take
+nmap -T4 -F %ip%/%distance%
+pause
+cls
+call :start
+
+:7
+cls
+set /p ip="enter router ip"
+set /p distance="enter how many ips to scan (0-255)"
+<nul set /p "=loading..."
+for /l %%i in (1,1,10) do (ping -n 2 127.0.0.1>nul & <nul set /p ="%BS% %BS%")
+echo.
+cls
+echo you can hit enter to see how much longer it will take
+nmap -sV -T4 -O -F --version-light %ip%/%distance%
+pause
+cls
+call :start
+
+:8
+cls
+set /p ip="enter router ip"
+set /p distance="enter how many ips to scan (0-255)"
+<nul set /p "=loading..."
+for /l %%i in (1,1,10) do (ping -n 2 127.0.0.1>nul & <nul set /p ="%BS% %BS%")
+echo.
+cls
+echo you can hit enter to see how much longer it will take
+nmap -sn --traceroute %ip%/%distance%
+pause
+cls
+call :start
+
+:9
+cls
+set /p ip="enter router ip"
+set /p distance="enter how many ips to scan (0-255)"
+<nul set /p "=loading..."
+for /l %%i in (1,1,10) do (ping -n 2 127.0.0.1>nul & <nul set /p ="%BS% %BS%")
+echo.
+cls
+echo you can hit enter to see how much longer it will take
+nmap %ip%/%distance%
+pause
+cls
+call :start
+
+:10
+cls
+set /p ip="enter router ip"
+set /p distance="enter how many ips to scan (0-255)"
+<nul set /p "=loading..."
+for /l %%i in (1,1,10) do (ping -n 2 127.0.0.1>nul & <nul set /p ="%BS% %BS%")
+echo.
+cls
+echo you can hit enter to see how much longer it will take
+nmap -sS -sU -T4 -A -v -PE -PP -PS80,443 -PA3389 -PU40125 -PY -g 53 --script "default or (discovery and safe)" %ip%/%distance%
+pause
+cls
+call :start
+
